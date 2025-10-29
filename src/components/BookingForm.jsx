@@ -41,7 +41,7 @@ const BookingForm = () => {
             <p className="text-gray-500">Vận Tải Dũng Ánh</p>
           </div>
           <div className="p-2 border-4 border-blue-500 rounded-lg">
-            <img src="https://horizons-cdn.hostinger.com/7ce12260-0bb2-4743-b9a1-97e8fa680e0b/5555555-DLVIj.jpg" alt="Zalo QR Code for Quoc Dat" className="w-64 h-64" />
+            <img src="https://horizons-cdn.hostinger.com/7ce12260-0bb2-4743-b9a1-97e8fa680e0b/5d58d4e937af231676d71a6115da6551.jpg" alt="Zalo QR Code for Tranngocanh" className="w-64 h-64" />
           </div>
           <Button asChild className="w-full gradient-bg text-lg py-6">
             <a href="https://zalo.me/0906511699" target="_blank" rel="noopener noreferrer">
