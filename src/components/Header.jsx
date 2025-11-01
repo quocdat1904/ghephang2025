@@ -1,97 +1,113 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Truck, Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate, useLocation } from 'react-router-dom';
+import TruckLogo from '@/components/TruckLogo';
+
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location]);
-  const navLinks = [{
-    name: 'Trang Chủ',
-    path: '/'
-  }, {
-    name: 'Dịch Vụ',
-    path: '/services'
-  }, {
-    name: 'Lịch Trình',
-    path: '/#schedule'
-  }, {
-    name: 'Liên Hệ',
-    path: '/#contact'
-  }];
-  const handleScrollTo = path => {
-    if (path.includes('#')) {
-      const id = path.split('#')[1];
-      const element = document.getElementById(id);
+
+  const navLinks = [
+    { name: 'Dịch Vụ', sectionId: 'services' },
+    { name: 'Lịch Trình', sectionId: 'schedule' },
+    { name: 'Đặt Hàng', sectionId: 'booking' },
+    { name: 'Liên Hệ', sectionId: 'footer' },
+  ];
+
+  const handleNavClick = (sectionId) => {
+    setIsMenuOpen(false);
+    if (location.pathname !== '/') {
+      navigate(`/#${sectionId}`);
+    } else {
+      const element = document.getElementById(sectionId);
       if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth'
-        });
+        const yOffset = -80; 
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({top: y, behavior: 'smooth'});
       }
     }
   };
-  return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 shadow-md backdrop-blur-sm' : 'bg-transparent'}`}>
+  
+  const handleLogoClick = () => {
+    if (location.pathname === '/') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        navigate('/');
+    }
+  };
+
+
+  return (
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg shadow-sm"
+    >
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
-          <Link to="/" className={`flex items-center gap-2 font-bold text-2xl ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
-            <Truck className="w-7 h-7 text-blue-500" />
-            <span>Vận Tải Dũng Ánh</span>
-          </Link>
+        <div className="flex items-center justify-between h-20">
+          <button onClick={handleLogoClick} className="flex items-center gap-2 text-xl font-bold text-blue-600">
+            <TruckLogo className="w-10 h-10" />
+            <span className='hidden sm:inline'>Xe Tải Ghép Hàng Đà Nẵng - Quảng Nam</span>
+          </button>
 
-          <nav className="hidden md:flex items-center gap-6">
-            {navLinks.map(link => <Link key={link.name} to={link.path} onClick={() => handleScrollTo(link.path)} className={`text-lg font-medium transition-colors ${isScrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-yellow-300'}`}>
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <button
+                key={link.name}
+                onClick={() => handleNavClick(link.sectionId)}
+                className="text-gray-600 font-medium hover:text-blue-600 transition-colors"
+              >
                 {link.name}
-              </Link>)}
+              </button>
+            ))}
           </nav>
-
+          
           <div className="flex items-center gap-4">
-             <Button asChild className="hidden md:flex gradient-bg">
-                <a href="tel:0906511699">
-                    <Phone className="w-4 h-4 mr-2" />
-                    Gọi Ngay
-                </a>
-            </Button>
-            <button onClick={() => setIsOpen(!isOpen)} className={`md:hidden p-2 rounded-md transition-colors ${isScrolled ? 'text-gray-800 hover:bg-gray-100' : 'text-white hover:bg-white/10'}`} aria-label="Toggle menu">
-              {isOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+             <a href="tel:0966511699" className="hidden md:block">
+              <Button className='bg-blue-600 hover:bg-blue-700'>
+                <Phone className="w-4 h-4 mr-2" />
+                Gọi Ngay
+              </Button>
+            </a>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden text-gray-700"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      {isOpen && <motion.div initial={{
-      opacity: 0,
-      y: -20
-    }} animate={{
-      opacity: 1,
-      y: 0
-    }} exit={{
-      opacity: 0,
-      y: -20
-    }} className="md:hidden bg-white shadow-lg absolute top-full left-0 right-0">
-          <nav className="flex flex-col p-4 gap-2">
-            {navLinks.map(link => <Link key={link.name} to={link.path} onClick={() => handleScrollTo(link.path)} className="text-gray-700 font-semibold p-3 rounded-md hover:bg-gray-100 hover:text-blue-600 transition-colors">
+        {isMenuOpen && (
+          <motion.nav
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            className="md:hidden pb-4 flex flex-col gap-4"
+          >
+            {navLinks.map((link) => (
+              <button
+                key={link.name}
+                onClick={() => handleNavClick(link.sectionId)}
+                className="text-left text-gray-700 hover:text-blue-600 py-2 font-medium"
+              >
                 {link.name}
-              </Link>)}
-             <Button asChild className="w-full mt-2 gradient-bg">
-                <a href="tel:0906511699">
-                    <Phone className="w-4 h-4 mr-2" />
-                    Gọi Ngay
-                </a>
-            </Button>
-          </nav>
-        </motion.div>}
-    </header>;
+              </button>
+            ))}
+             <a href="tel:0966511699">
+              <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                <Phone className="w-4 h-4 mr-2" />
+                Gọi Ngay
+              </Button>
+            </a>
+          </motion.nav>
+        )}
+      </div>
+    </motion.header>
+  );
 };
+
 export default Header;

@@ -1,87 +1,83 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+
+const ContactInfoItem = ({ icon: Icon, title, content, href, color }) => {
+  const contentElement = href ? (
+    <a href={href} className="text-gray-600 hover:text-blue-600 transition-colors">{content}</a>
+  ) : (
+    <p className="text-gray-600">{content}</p>
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow"
+    >
+      <div className={`w-14 h-14 ${color} rounded-full flex items-center justify-center mx-auto mb-4`}>
+        <Icon className="w-7 h-7" />
+      </div>
+      <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
+      {contentElement}
+    </motion.div>
+  );
+};
+
 
 const Contact = () => {
   const contactInfo = [
     {
       icon: Phone,
-      title: 'Hotline 24/7 Dũng',
-      content: '0901 445 772',
-      link: 'tel:0901445772'
+      title: 'Hotline Dũng',
+      content: '0911445772',
+      href: 'tel:0911445772',
+      color: 'bg-blue-100 text-blue-600'
     },
     {
       icon: Phone,
-      title: 'Hotline 24/7 Ánh',
-      content: '0906 511 699',
-      link: 'tel:0906511699'
+      title: 'Hotline Ánh',
+      content: '0966511699',
+      href: 'tel:0966511699',
+      color: 'bg-orange-100 text-orange-600'
     },
     {
       icon: Mail,
       title: 'Email',
-      content: 'vantaidnqn@gmail.com',
-      link: 'mailto:vantaidnqn@gmail.com'
+      content: 'info@vanchuyendanang.vn',
+      href: 'mailto:info@vanchuyendanang.vn',
+      color: 'bg-green-100 text-green-600'
     },
     {
       icon: MapPin,
-      title: 'Bãi Xe Đà Nẵng',
-      content: 'Đường ABC, Q. Cẩm Lệ',
-      link: 'https://www.google.com/maps?q=Cẩm Lệ, Đà Nẵng'
-    },
-    {
-      icon: MapPin,
-      title: 'Bãi Xe Quảng Nam',
-      content: 'Tổ 2 Thôn Bàu Bính, Xã Bình Dương, Huyện Thăng Bình',
-      link: 'https://www.google.com/maps/search/?api=1&query=Tổ+2+Thôn+Bàu+Bính,+Xã+Bình+Dương,+Huyện+Thăng+Bình'
+      title: 'Địa chỉ',
+      content: 'Đà Nẵng - Quảng Nam',
+      color: 'bg-purple-100 text-purple-600'
     }
   ];
 
   return (
-    <section id="contact" className="py-20 bg-white">
-      <div className="container mx-auto px-4">
+    <section id="contact" className="py-20 px-4">
+      <div className="container mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-            Thông Tin Liên Hệ
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Liên Hệ Với Chúng Tôi
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Luôn sẵn sàng phục vụ khi bạn cần.
+          <p className="text-gray-600">
+            Chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {contactInfo.map((info, index) => {
-            const Icon = info.icon;
-            const content = info.link ? (
-               <a href={info.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 transition-colors font-semibold">
-                {info.content}
-              </a>
-            ) : (
-              <span className="text-gray-700">{info.content}</span>
-            );
-
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow"
-              >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                  <Icon className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="font-bold text-gray-800 mb-2">{info.title}</h3>
-                {content}
-              </motion.div>
-            );
-          })}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {contactInfo.map((info, index) => (
+            <ContactInfoItem key={index} {...info} />
+          ))}
         </div>
       </div>
     </section>
