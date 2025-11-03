@@ -46,10 +46,10 @@ const Hero = () => {
                         Báo Giá Zalo
                     </Button>
                 </a>
-                <a href="tel:0911445772">
+                <a href="tel:0906511699">
                     <Button size="lg" className="bg-green-500 hover:bg-green-600 shadow-lg group">
                         <Phone className="w-5 h-5 mr-2" />
-                        Gọi Ngay để nhận giá ưu đãi
+                        Gọi ngay giá tốt nhất
                     </Button>
                 </a>
             </div>

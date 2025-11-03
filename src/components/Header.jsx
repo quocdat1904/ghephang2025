@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useLocation } from 'react-router-dom';
-import TruckLogo from '@/components/TruckLogo';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,9 +48,8 @@ const Header = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          <button onClick={handleLogoClick} className="flex items-center gap-2 text-xl font-bold text-blue-600">
-            <TruckLogo className="w-10 h-10" />
-            <span className='hidden sm:inline'>Xe Tải Ghép Hàng Đà Nẵng - Quảng Nam</span>
+          <button onClick={handleLogoClick} className="flex items-center gap-2 text-xl font-bold text-blue-600 text-left">
+            <h1>Xe Tải Ghép Hàng<br className="sm:hidden" /> Đà Nẵng - Quảng Nam</h1>
           </button>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -67,7 +65,7 @@ const Header = () => {
           </nav>
           
           <div className="flex items-center gap-4">
-             <a href="tel:0966511699" className="hidden md:block">
+             <a href="tel:0906511699" className="hidden md:block">
               <Button className='bg-blue-600 hover:bg-blue-700'>
                 <Phone className="w-4 h-4 mr-2" />
                 Gọi Ngay
@@ -97,7 +95,7 @@ const Header = () => {
                 {link.name}
               </button>
             ))}
-             <a href="tel:0966511699">
+             <a href="tel:0906511699">
               <Button className="w-full bg-blue-600 hover:bg-blue-700">
                 <Phone className="w-4 h-4 mr-2" />
                 Gọi Ngay
